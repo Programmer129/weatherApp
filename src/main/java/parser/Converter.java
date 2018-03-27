@@ -47,11 +47,6 @@ public class Converter {
         this.generateDictionary();
     }
 
-
-    public String toGeorgian(String word){
-        return null;
-    }
-
     public String toEnglish(String word){
         String ans="";
         for(int i=0; i < word.length(); i++){

@@ -4,33 +4,41 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 public class Parser {
 
     private static final String MAIN_URL = "http://amindi.ge/";
-    private static final String CITY_URL_ONE = "http://amindi.ge/city/";
-    private static final String CITY_URL_TWO = "/%E1%83%97%E1%83%91%E1%83%98%E1%83%9A%E1%83%98%E1%83%A1%E1%83%98";
     private static final String cityClass = "choose_city_button hide_desc left";
 
-    private static String city = "tbilisi";
+    private static String city = "აბასთუმანი";
     private Document document;
     private List<String> cities;
-    private Converter converter;
+    private ServerRequestDictionary serverRequestDictionary;
 
     public Parser(){
+        this.serverRequestDictionary = new ServerRequestDictionary();
         try {
-            this.document = Jsoup.connect(CITY_URL_ONE + city + CITY_URL_TWO).get();
-            this.cities = Jsoup.connect(MAIN_URL).get().getElementsByClass(cityClass).eachText();
-            this.converter = new Converter();
+            StringTokenizer stringTokenizer =
+                    new StringTokenizer(Jsoup.connect(MAIN_URL).get().getElementsByClass(cityClass).eachText().toString()," ");
+            this.cities = new ArrayList<>();
+            while(stringTokenizer.hasMoreTokens()){
+                this.cities.add(stringTokenizer.nextToken());
+            }
+            this.cities = this.cities.stream().filter(city -> !city.equals(cities.get(0)))
+                    .filter(city -> !city.equals(cities.get(1))).limit(50).collect(Collectors.toList());
+            this.document = Jsoup.connect(this.serverRequestDictionary.getDictionary().get(city)).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void setCity(String c) throws IOException {
-        city = this.converter.toEnglish(c);
-        this.document = Jsoup.connect(CITY_URL_ONE + city + CITY_URL_TWO).get();
+        city = c;
+        this.document = Jsoup.connect(this.serverRequestDictionary.getDictionary().get(city)).get();
     }
 
     public List<String> getCities() {
@@ -48,6 +56,5 @@ public class Parser {
     public List<String> getTemp(){
         return this.document.getElementsByClass("tmp25").eachText();
     }
-
 
 }
