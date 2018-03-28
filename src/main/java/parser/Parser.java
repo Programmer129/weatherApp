@@ -2,6 +2,7 @@ package parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,6 +56,12 @@ public class Parser {
 
     public List<String> getTemp(){
         return this.document.getElementsByClass("tmp25").eachText();
+    }
+
+    public List<String> getPhase(){
+        Elements elements = this.document.select("img[title]");
+        int size = elements.eachAttr("title").size();
+        return elements.eachAttr("title").stream().skip(size - 6).limit(5).collect(Collectors.toList());
     }
 
 }
