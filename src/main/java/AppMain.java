@@ -1,34 +1,45 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import parser.Parser;
+import utilities.ImageTaker;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AppMain extends Application {
+
+    private Parser parser = new Parser();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
 
         BorderPane borderPane = new BorderPane();
 
         ComboBox<String> comboBox = comboBoxList();
 
         comboBox.setValue(comboBox.getItems().get(0));
+
+        comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                this.parser.setCity(newValue);
+                borderPane.setCenter(addFlowPane());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         borderPane.setTop(addHBox(comboBox));
         borderPane.setCenter(addFlowPane());
@@ -42,23 +53,61 @@ public class AppMain extends Application {
         primaryStage.show();
     }
 
-    private FlowPane addFlowPane() {
-        FlowPane flowPane = new FlowPane();
-        List<ImageView> imageView = new ArrayList<>();
-        File [] files = new File("/home/levani/IdeaProjects/weatherappdemo/images/").listFiles();
+    private GridPane addFlowPane() {
+        GridPane gridPane = new GridPane();
+        GridPane imagePane = new GridPane();
+        GridPane dayPane = new GridPane();
+        GridPane datesPane = new GridPane();
+        GridPane tempPane = new GridPane();
+        ImageTaker imageTaker = new ImageTaker();
 
-        for (File file : files) {
-            imageView.add(new ImageView(new Image(file.toURI().toString())));
+        try {
+            List<String> days = this.parser.getDays();
+            List<String> dates = this.parser.getDate();
+            List<String> getTemp = this.parser.getTemp();
+            List<String> phases = this.parser.getPhase();
+
+            for(int i = 0; i< phases.size();i++){
+
+                ImageView view = new ImageView(imageTaker.getMap().get(phases.get(i)));
+                view.setFitWidth(75);
+                view.setFitHeight(75);
+
+                Label dayLabel = new Label();
+                dayLabel.setText(days.get(i));
+
+                Label dateLabel = new Label();
+                dateLabel.setText(dates.get(i));
+
+                Label tempLabel = new Label();
+                tempLabel.setText("    "+getTemp.get(i));
+
+                imagePane.add(view, i, 1);
+                imagePane.setHgap(18);
+                dayPane.add(dayLabel, i, 1);
+                dayPane.setHgap(45);
+                datesPane.add(dateLabel, i, 1);
+                datesPane.setHgap(35);
+                tempPane.add(tempLabel,i, 1);
+                tempPane.setHgap(40);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        flowPane.getChildren().addAll(imageView);
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.add(imagePane, 0, 2);
+        gridPane.add(dayPane, 0, 0);
+        gridPane.add(datesPane, 0, 1);
+        gridPane.add(tempPane, 0, 3);
 
-        return flowPane;
+        return gridPane;
     }
 
     private ComboBox<String> comboBoxList(){
         ComboBox<String> comboBox = new ComboBox<>();
-        comboBox.getItems().addAll(new Parser().getCities());
+        comboBox.getItems().addAll(parser.getCities());
 
         return comboBox;
     }

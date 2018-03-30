@@ -50,7 +50,9 @@ public class ServerRequestDictionary {
         this.dictionary.put("საჩხერე", "http://amindi.ge/city/"+converter.toEnglish("საჩხერე")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");
         this.dictionary.put("სენაკი", "http://amindi.ge/city/"+converter.toEnglish("სენაკი")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");
         this.dictionary.put("სიონი", "http://amindi.ge/city/"+converter.toEnglish("სიონი")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");
-        this.dictionary.put("სიღნაღი", "http://amindi.ge/city/"+converter.toEnglish("სიღნაღი")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");
+
+        this.dictionary.put("სიღნაღი", "http://amindi.ge/city/"+converter.toEnglish("სიღნაღი")+"/%E1%83%A1%E1%83%98%E1%83%A6%E1%83%9C%E1%83%90%E1%83%A6%E1%83%98");
+
         this.dictionary.put("სოხუმი", "http://amindi.ge/city/"+converter.toEnglish("სოხუმი")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");
         this.dictionary.put("სურამი", "http://amindi.ge/city/"+converter.toEnglish("სურამი")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");
         this.dictionary.put("ურეკი", "http://amindi.ge/city/"+converter.toEnglish("ურეკი")+"%E1%83%90%E1%83%91%E1%83%90%E1%83%A1%E1%83%97%E1%83%A3%E1%83%9B%E1%83%90%E1%83%9C%E1%83%98");

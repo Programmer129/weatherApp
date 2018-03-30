@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Converter {
 
-    private Map<Character, String> dictionary = new HashMap<Character, String>();
+    private Map<Character, String> dictionary = new HashMap<>();
 
     private void generateDictionary() {
         dictionary.put('ა',"a");
@@ -56,4 +56,7 @@ public class Converter {
         return ans;
     }
 
+    public Map<Character, String> getDictionary() {
+        return dictionary;
+    }
 }
