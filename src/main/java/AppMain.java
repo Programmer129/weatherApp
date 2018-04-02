@@ -5,10 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import parser.Parser;
 import utilities.ImageTaker;
 
@@ -61,39 +64,46 @@ public class AppMain extends Application {
         GridPane tempPane = new GridPane();
         ImageTaker imageTaker = new ImageTaker();
 
-        try {
-            List<String> days = this.parser.getDays();
-            List<String> dates = this.parser.getDate();
-            List<String> getTemp = this.parser.getTemp();
-            List<String> phases = this.parser.getPhase();
+        List<String> days = this.parser.getDays();
+        List<String> dates = this.parser.getDate();
+        List<String> getTemp = this.parser.getTemp();
+        List<String> phases = this.parser.getPhase();
 
-            for(int i = 0; i< phases.size();i++){
+        for(int i = 0; i< phases.size();i++){
 
-                ImageView view = new ImageView(imageTaker.getMap().get(phases.get(i)));
-                view.setFitWidth(75);
-                view.setFitHeight(75);
+            ImageView view = new ImageView(imageTaker.getMap().get(phases.get(i)));
+            view.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEnteredEvent -> {
+                Scene scene = new Scene(new FlowPane(), 400, 200);
+                Stage stage = new Stage();
+                stage.setResizable(false);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(scene);
+                stage.show();
 
-                Label dayLabel = new Label();
-                dayLabel.setText(days.get(i));
+                view.addEventHandler(MouseEvent.MOUSE_EXITED, mouseExitEvent -> {
+                    stage.close();
+                });
+            });
+            view.setFitWidth(75);
+            view.setFitHeight(75);
 
-                Label dateLabel = new Label();
-                dateLabel.setText(dates.get(i));
+            Label dayLabel = new Label();
+            dayLabel.setText(days.get(i));
 
-                Label tempLabel = new Label();
-                tempLabel.setText("    "+getTemp.get(i));
+            Label dateLabel = new Label();
+            dateLabel.setText(dates.get(i));
 
-                imagePane.add(view, i, 1);
-                imagePane.setHgap(18);
-                dayPane.add(dayLabel, i, 1);
-                dayPane.setHgap(45);
-                datesPane.add(dateLabel, i, 1);
-                datesPane.setHgap(35);
-                tempPane.add(tempLabel,i, 1);
-                tempPane.setHgap(40);
-            }
+            Label tempLabel = new Label();
+            tempLabel.setText("    "+getTemp.get(i));
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            imagePane.add(view, i, 1);
+            imagePane.setHgap(18);
+            dayPane.add(dayLabel, i, 1);
+            dayPane.setHgap(45);
+            datesPane.add(dateLabel, i, 1);
+            datesPane.setHgap(35);
+            tempPane.add(tempLabel,i, 1);
+            tempPane.setHgap(40);
         }
 
         gridPane.setAlignment(Pos.CENTER);

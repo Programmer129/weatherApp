@@ -46,7 +46,7 @@ public class Parser {
         return cities;
     }
 
-    public List<String> getDays() throws IOException {
+    public List<String> getDays() {
         return this.document.getElementsByClass("t25").eachText();
     }
 
@@ -64,6 +64,11 @@ public class Parser {
         return elements.eachAttr("title").stream().skip(size - 6).limit(5).collect(Collectors.toList());
     }
 
+    public List<String> getDailyHours(){
+        return this.document.getElementsByClass("24_in").eachText();
+    }
 
-
+    public List<String> getDailyPhases(){
+        return this.document.getElementsByClass("24_in").select("img[title]").eachAttr("title");
+    }
 }
