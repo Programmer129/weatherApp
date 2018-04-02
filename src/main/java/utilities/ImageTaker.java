@@ -26,6 +26,7 @@ public class ImageTaker {
         this.map.put("უმეტესად ღრუბლიანი",new Image(new File(path+"umetesad_grubliani.png").toURI().toString()));
         this.map.put("ცვალებადი მოღრუბლულობა",new Image(new File(path+"umetesad_grubliani.png").toURI().toString()));
         this.map.put("წვიმა",new Image(new File(path+"wvima.png").toURI().toString()));
+        this.map.put("კოკისპირული წვიმა, უმეტესად ღრუბლიანი",new Image(new File(path+"wvima.png").toURI().toString()));
         this.map.put("წვიმა და თოვლი",new Image(new File(path+"wvima_da_tovli.png").toURI().toString()));
         this.map.put("თოვლი",new Image(new File(path+"tovli.png").toURI().toString()));
     }

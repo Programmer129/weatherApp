@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -72,18 +71,41 @@ public class AppMain extends Application {
         for(int i = 0; i< phases.size();i++){
 
             ImageView view = new ImageView(imageTaker.getMap().get(phases.get(i)));
-            view.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEnteredEvent -> {
-                Scene scene = new Scene(new FlowPane(), 400, 200);
-                Stage stage = new Stage();
-                stage.setResizable(false);
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
+            if(i == 0) {
+                view.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEnteredEvent -> {
+                    List<String> dailyPhases = this.parser.getDailyPhases();
+                    List<String> dailyHours = this.parser.getDailyHours();
 
-                view.addEventHandler(MouseEvent.MOUSE_EXITED, mouseExitEvent -> {
-                    stage.close();
+                    GridPane phasePane = new GridPane();
+                    GridPane hourPane = new GridPane();
+                    GridPane dailyPane = new GridPane();
+
+                    for (int i1 = 0; i1 < dailyPhases.size(); i1++) {
+                        ImageView imageView = new ImageView(imageTaker.getMap().get(dailyPhases.get(i1)));
+                        Label label = new Label();
+                        label.setText(dailyHours.get(i1));
+                        phasePane.add(imageView, i1, 1);
+                        phasePane.setHgap(65);
+                        hourPane.add(label, i1, 1);
+                        hourPane.setHgap(30);
+                    }
+
+                    dailyPane.add(phasePane, 0, 1);
+                    dailyPane.add(hourPane, 0, 2);
+                    dailyPane.setAlignment(Pos.CENTER);
+
+                    Scene scene = new Scene(dailyPane, 600, 200);
+                    Stage stage = new Stage();
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.setScene(scene);
+                    stage.show();
+
+                    view.addEventHandler(MouseEvent.MOUSE_EXITED, mouseExitEvent -> {
+                        stage.close();
+                    });
                 });
-            });
+            }
             view.setFitWidth(75);
             view.setFitHeight(75);
 
@@ -99,7 +121,7 @@ public class AppMain extends Application {
             imagePane.add(view, i, 1);
             imagePane.setHgap(18);
             dayPane.add(dayLabel, i, 1);
-            dayPane.setHgap(45);
+            dayPane.setHgap(31);
             datesPane.add(dateLabel, i, 1);
             datesPane.setHgap(35);
             tempPane.add(tempLabel,i, 1);
