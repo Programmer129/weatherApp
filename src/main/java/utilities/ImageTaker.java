@@ -1,6 +1,10 @@
 package utilities;
 
 import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 
 import java.io.File;
 import java.util.HashMap;
@@ -33,5 +37,11 @@ public class ImageTaker {
 
     public Map<String, Image> getMap() {
         return map;
+    }
+
+    public BackgroundImage getBackgroundImage(){
+        Image image = new Image(new File(this.path+"sun4.jpg").toURI().toString());
+        return new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     }
 }

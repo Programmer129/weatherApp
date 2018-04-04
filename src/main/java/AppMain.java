@@ -6,9 +6,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import parser.Parser;
@@ -20,6 +23,7 @@ import java.util.List;
 public class AppMain extends Application {
 
     private Parser parser = new Parser();
+    private ImageTaker imageTaker = new ImageTaker();
 
     public static void main(String[] args) {
         launch(args);
@@ -57,11 +61,11 @@ public class AppMain extends Application {
 
     private GridPane addFlowPane() {
         GridPane gridPane = new GridPane();
+        gridPane.setBackground(new Background(this.imageTaker.getBackgroundImage()));
         GridPane imagePane = new GridPane();
         GridPane dayPane = new GridPane();
         GridPane datesPane = new GridPane();
         GridPane tempPane = new GridPane();
-        ImageTaker imageTaker = new ImageTaker();
 
         List<String> days = this.parser.getDays();
         List<String> dates = this.parser.getDate();
@@ -70,7 +74,7 @@ public class AppMain extends Application {
 
         for(int i = 0; i< phases.size();i++){
 
-            ImageView view = new ImageView(imageTaker.getMap().get(phases.get(i)));
+            ImageView view = new ImageView(this.imageTaker.getMap().get(phases.get(i)));
             if(i == 0) {
                 view.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEnteredEvent -> {
                     List<String> dailyPhases = this.parser.getDailyPhases();
@@ -81,7 +85,7 @@ public class AppMain extends Application {
                     GridPane dailyPane = new GridPane();
 
                     for (int i1 = 0; i1 < dailyPhases.size(); i1++) {
-                        ImageView imageView = new ImageView(imageTaker.getMap().get(dailyPhases.get(i1)));
+                        ImageView imageView = new ImageView(this.imageTaker.getMap().get(dailyPhases.get(i1)));
                         Label label = new Label();
                         label.setText(dailyHours.get(i1));
                         phasePane.add(imageView, i1, 1);
@@ -106,26 +110,32 @@ public class AppMain extends Application {
                     });
                 });
             }
-            view.setFitWidth(75);
-            view.setFitHeight(75);
+            view.setFitWidth(80);
+            view.setFitHeight(80);
 
             Label dayLabel = new Label();
+            dayLabel.setTextFill(Color.web("#090909"));
+            dayLabel.setFont(Font.font(18));
             dayLabel.setText(days.get(i));
 
             Label dateLabel = new Label();
+            dateLabel.setTextFill(Color.web("#090909"));
+            dateLabel.setFont(Font.font(18));
             dateLabel.setText(dates.get(i));
 
             Label tempLabel = new Label();
-            tempLabel.setText("    "+getTemp.get(i));
+            tempLabel.setTextFill(Color.web("#090909"));
+            tempLabel.setFont(Font.font(18));
+            tempLabel.setText("   "+getTemp.get(i));
 
             imagePane.add(view, i, 1);
-            imagePane.setHgap(18);
+            imagePane.setHgap(30);
             dayPane.add(dayLabel, i, 1);
-            dayPane.setHgap(31);
+            dayPane.setHgap(40);
             datesPane.add(dateLabel, i, 1);
-            datesPane.setHgap(35);
+            datesPane.setHgap(30);
             tempPane.add(tempLabel,i, 1);
-            tempPane.setHgap(40);
+            tempPane.setHgap(35);
         }
 
         gridPane.setAlignment(Pos.CENTER);
